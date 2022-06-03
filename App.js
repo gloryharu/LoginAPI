@@ -1,9 +1,9 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import NavPage from './navigation/NavPage';
+import GlobalState from './navigation/GlobalState';
 
 const App = () => {
-  return <NavPage />;
+  return <GlobalState/>
 };
 
 export default App;
