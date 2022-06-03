@@ -1,24 +1,24 @@
-import {StyleSheet, View, Button, Text} from 'react-native';
-import React, {useState} from 'react';
-import Input from '../components/Input';
+import { StyleSheet, View, Button, Text } from "react-native";
+import React, { useState } from "react";
+import Input from "../components/Input";
 
-const Login = ({userInfo, changeProps}) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+const Login = ({ userInfo, changeProps }) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const logoutAPI = () => {
     changeProps(null);
-    setUsername('');
-    setPassword('');
+    setUsername("");
+    setPassword("");
   };
 
   const loginAPI = async () => {
     try {
-      const response = await fetch('http://i-web.com.vn/api/v1/auth/signin', {
-        method: 'POST',
+      const response = await fetch("http://i-web.com.vn/api/v1/auth/signin", {
+        method: "POST",
         headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
+          Accept: "application/json",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           client_data: {
@@ -28,7 +28,8 @@ const Login = ({userInfo, changeProps}) => {
         }),
       });
       const json = await response.json();
-      console.log('LOGIN: ', json?.data);
+      console.log("LOGIN: ", json?.data);
+      changeProps(json?.data);
     } catch (error) {
       console.log(error);
     }
@@ -42,12 +43,12 @@ const Login = ({userInfo, changeProps}) => {
           <Input
             placeholder="Username"
             value={username}
-            onChangeText={newText => setUsername(newText)}
+            onChangeText={(newText) => setUsername(newText)}
           />
           <Input
             placeholder="Password"
             value={password}
-            onChangeText={newPassword => setPassword(newPassword)}
+            onChangeText={(newPassword) => setPassword(newPassword)}
           />
           <View style={styles.btnContainer}>
             <Button title="Login" onPress={() => loginAPI()} />
@@ -55,11 +56,11 @@ const Login = ({userInfo, changeProps}) => {
         </View>
       ) : (
         /* Logout View */
-        <View style={{justifyContent: 'center', alignItems: 'center'}}>
-          <Text style={{fontSize: 20, fontWeight: 'bold'}}>
+        <View style={{ justifyContent: "center", alignItems: "center" }}>
+          <Text style={{ fontSize: 20, fontWeight: "bold" }}>
             Login Successful
           </Text>
-          <Text style={{fontSize: 15, marginVertical: 10}}>
+          <Text style={{ fontSize: 15, marginVertical: 10 }}>
             Your username : {userInfo.username}
           </Text>
           <Button title="Logout" onPress={() => logoutAPI()} />
@@ -74,7 +75,7 @@ export default Login;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   btnContainer: {
     marginHorizontal: 15,
