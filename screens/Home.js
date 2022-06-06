@@ -6,7 +6,7 @@ import {
   ActivityIndicator,
   Image,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getList } from "../redux_toolkit/user/homeSlice";
 
@@ -27,16 +27,35 @@ const Home = () => {
         body: JSON.stringify({}),
       });
       const json = await response.json();
-      // console.log("List Items: ", json?.data);
+      // console.log("List Item: ", json?.data);
       dispatch(getList(json?.data));
     } catch (error) {
       console.log(error);
     }
   };
 
-  useEffect(() => {
+  const didMounted = useRef(true);
+  useLayoutEffect(() => {
+    if (didMounted.current) {
+      didMounted.current = false;
+      return;
+    }
     getListItem(user?.userInfo?.accessToken);
-  }, []);
+  });
+
+  // const didMounted = useRef(true);
+
+  // useEffect(() => {
+  //   getListItem(user?.userInfo?.accessToken);
+  // }, []);
+
+  // useEffect(() => {
+  //   if (didMounted.current) {
+  //     didMounted.current = false;
+  //     return;
+  //   }
+  //   getListItem(user?.userInfo?.accessToken);
+  // }, [user?.userInfo]);
 
   return (
     <View style={styles.container}>
