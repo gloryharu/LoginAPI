@@ -9,6 +9,7 @@ import {
 import React, { useEffect, useLayoutEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getList } from "../redux_toolkit/user/homeSlice";
+import { API } from "../server/API";
 
 const Home = () => {
   const user = useSelector((state) => state.user);
@@ -27,27 +28,27 @@ const Home = () => {
         body: JSON.stringify({}),
       });
       const json = await response.json();
-      // console.log("List Item: ", json?.data);
+      console.log("List Item: ", json?.data);
       dispatch(getList(json?.data));
     } catch (error) {
       console.log(error);
     }
   };
 
-  const didMounted = useRef(true);
-  useLayoutEffect(() => {
-    if (didMounted.current) {
-      didMounted.current = false;
-      return;
-    }
-    getListItem(user?.userInfo?.accessToken);
-  });
+  
 
   // const didMounted = useRef(true);
-
-  // useEffect(() => {
+  // useLayoutEffect(() => {
+  //   if (didMounted.current) {
+  //     didMounted.current = false;
+  //     return;
+  //   }
   //   getListItem(user?.userInfo?.accessToken);
-  // }, []);
+  // });
+
+  useEffect(() => {
+    getListItem(user?.userInfo?.accessToken);
+  }, []);
 
   // useEffect(() => {
   //   if (didMounted.current) {
